@@ -75,7 +75,7 @@ node ./dist
 
 `./Dockerfile`
 
-```docker
+```Dockerfile
 FROM node:alpine as builder
 
 LABEL MAINTAINER="MOHAMED BELKAMEL"
