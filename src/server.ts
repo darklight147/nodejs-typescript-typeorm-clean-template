@@ -11,6 +11,7 @@ import healthRouter from './routes/health.router';
 
 export class App {
     private _app: Application;
+    private _origins: string[] = ["http://localhost:3000", "YOUR_DOMAINS_HERE"];
 
     constructor() {
         this._app = express();
@@ -47,10 +48,15 @@ export class App {
         this._app.use(securityMiddleware);
         this._app.use(
             cors({
-                origin: ["http://localhost:3000", "YOUR_DOMAINS_HERE"],
-                credentials: true,
-            })
-        );
+                origin: (origin, callback) => {
+                    if (origin && this._origins.indexOf(origin) !== -1) {
+                        callback(null, true);
+                    } else {
+                        callback(new Error('Not allowed by CORS'));
+                    }
+                },
+                credentials: true
+            }));
         this._app.use(
             cookieSession({
                 name: 'access_token',
