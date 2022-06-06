@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: backend-api
+spec:
+    selector:
+        matchLabels:
+            app: backend-api
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: backend-api
+        spec:
+            containers:
+                - name: backend-api
+                  image: darklight147/backend-api:latest
+                  resources:
+                      limits:
+                          # Allow up to 1Gi of memory and 512Mi of CPU
+                          memory: '1Gi'
+                          cpu: '512m'
+                  ports:
+                      - containerPort: 8080
+                      - containerPort: 50000
